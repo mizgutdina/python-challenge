@@ -75,13 +75,13 @@ with open(output_file, "w") as datafile:
     writer.writerow(['-'*35])
 #end of writing csv
 
-# print("Election Results")
-# print("-"*30)
-# print(f"Total Votes: {TotalVotes}")
-# print("-"*30)
-# for x in range(len(uniqueCandidates)):
-#    print(f"{uniqueCandidates[x]} : {VotePercent[x]} ({VotesPerCandidate[x]})")
-# print("-"*30)
-# print(f"Winner: {winner}")
-# print("-"*30)
+print("Election Results")
+print("-"*30)
+print(f"Total Votes: {TotalVotes}")
+print("-"*30)
+for x in range(len(uniqueCandidates)):
+   print(f"{uniqueCandidates[x]} : {VotePercent[x]} ({VotesPerCandidate[x]})")
+print("-"*30)
+print(f"Winner: {winner}")
+print("-"*30)
 
