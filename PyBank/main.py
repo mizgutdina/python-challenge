@@ -8,6 +8,9 @@ csvpath = os.path.join('/Users/medinai/Desktop/python-challenge/PyBank/Resources
 
 #Denote array where all months will be stored
 TotalMonths = 0
+#net change
+profit_loss=[] 
+NetTotalAmount = 0
 
 # Improved Reading using CSV module
 with open(csvpath) as csvfile:
@@ -24,12 +27,11 @@ with open(csvpath) as csvfile:
     first_row=next(csvreader)
     
     TotalMonths = TotalMonths + 1
-   
+    NetTotalAmount = NetTotalAmount + 1
     #empty list to store all changes
     change=[] 
     
-    #net change
-    profit_loss=[] 
+    
     months=[]
     
     date=[]
@@ -38,6 +40,14 @@ with open(csvpath) as csvfile:
     for row in csvreader:
      #   print(row)
         TotalMonths = TotalMonths + 1
+        #Calculate the net total amount
+        profit_loss.append(int(row[1]))
+    
+    for NetTotalAmount in profit_loss:
+        NetTotalAmount = NetTotalAmount + 1
+
+
+
 
 # net_total_amount=0    
 # with open(csvpath) as csvfile:
@@ -69,6 +79,6 @@ with open(csvpath) as csvfile:
 print("Financial Analysis")
 print("-"*35)
 print(f"Total Months: {TotalMonths}")
-#print(f"Total: {net_total_amount}")
+print(f"Total: ${NetTotalAmount}")
     #print (change)
     
