@@ -6,79 +6,84 @@ import csv
 
 csvpath = os.path.join('/Users/medinai/Desktop/python-challenge/PyBank/Resources/budget_data.csv')
 
-#Denote array where all months will be stored
-TotalMonths = 0
-#net change
-profit_loss=[] 
-NetTotalAmount = 0
+#Denote arrays where all months & totals will be stored 
+total_months = 0 
+net_total_amount = 0
 
 # Improved Reading using CSV module
 with open(csvpath) as csvfile:
 
     # CSV reader specifies delimiter and variable that holds contents
     csvreader = csv.reader(csvfile, delimiter=',')
-
     #print(csvreader)
 
     # Read the header row first 
     csv_header = next(csvreader)
     #print(f"CSV Header: {csv_header}")
-    
-    first_row=next(csvreader)
-    
-    TotalMonths = TotalMonths + 1
-    NetTotalAmount = NetTotalAmount + 1
-    #empty list to store all changes
-    change=[] 
-    
-    
-    months=[]
-    
+
+    #empty lists to store date, profit/loss and all changes
     date=[]
+    profit_loss = []
+    change = [] 
+    average_change = []
     
     # Read each row of data after the header
     for row in csvreader:
-     #   print(row)
-        TotalMonths = TotalMonths + 1
+        #print(row)
+        #Calculate total months
+        total_months = total_months + 1
+        
         #Calculate the net total amount
-        profit_loss.append(int(row[1]))
+        net_total_amount = net_total_amount+int(row[1])
+
+        #Point to respective data arrays
+        date.append(row[0])
+        profit_loss.append(row[1])
+    #Calculate delta - difference between subsequent profit/losses
+    for i in range(len(date)-1):
+       change.append(int(profit_loss[i+1])-int(profit_loss[i]))
     
-    for NetTotalAmount in profit_loss:
-        NetTotalAmount = NetTotalAmount + 1
+    #Find average change - sum of all changes of profit/loss over the number of changes
+    average_change = str(round((sum(change)/len(change)),2))
 
-
-
-
-# net_total_amount=0    
-# with open(csvpath) as csvfile:
-# # CSV reader specifies delimiter and variable that holds contents - csvfile
-#     csvreader = csv.reader(csvfile, delimiter=',')
-
-#     print(csvreader)
-
-#     # Read the header row first (skip this step if there is now header)
-#     csv_header = next(csvreader)
-#     #print(f"CSV Header: {csv_header}")
+    #Find largest value in the change array - greatest increase
+    greatest_increase = max(change)
     
-#     first_row=next(csvreader)
+    #Find index of the greatest increase - the date it occured
+    x = change.index(greatest_increase)
+    date_increase = date[x+1]
+
+    #Find smallest value - greatest decrease
+    greatest_decrease = min(change)
     
-#     #Define the function and have it accept the 'budget_data' as its sole parameter
-#     for row in csvreader:
-#         #Assign values to variables 
-#         net_total_amount = net_total_amount + 1
+    #Find date 
+    y = change.index(greatest_decrease)
+    date_decrease = (date[y+1])
 
-#         #Net total anount
-# net_total_amount = sum(profit_loss)
+#start of writing csv output file
+#Set variable for output file
+output_file = os.path.join("/Users/medinai/Desktop/python-challenge/PyBank/analysis/output.csv")
 
+#Open the output file
+with open(output_file, "w") as datafile:
+    writer = csv.writer(datafile)
+    
+    writer.writerow(["Financial Analysis"])
+    writer.writerow(["-"*30])
+    writer.writerow([f"Total Months: {total_months}"])
+    writer.writerow([f"Total: ${net_total_amount}"])
+    writer.writerow([f"Average Change: ${average_change}"])
+    writer.writerow([f"Greatest Increase in Profits: {date_increase} $({greatest_increase})"])
+    writer.writerow([f"Greatest Decrease in Profits: {date_decrease} $({greatest_decrease})"])
 
-
-    #for i in range(len(date)-1):
-     #   change.append(profit_loss[i+1]-profit_loss[i])
-   
+#end of writing csv output file
 
 print("Financial Analysis")
-print("-"*35)
-print(f"Total Months: {TotalMonths}")
-print(f"Total: ${NetTotalAmount}")
-    #print (change)
+print("-"*30)
+print(f"Total Months: {total_months}")
+print(f"Total: ${net_total_amount}")
+print(f"Average Change: ${average_change}")
+print(f"Greatest Increase in Profits: {date_increase} $({greatest_increase})")
+print(f"Greatest Decrease in Profits: {date_decrease} $({greatest_decrease})")
+    
     
